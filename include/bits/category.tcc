@@ -20,7 +20,7 @@ namespace bits {
 /**/
 template <typename charT, typename traits, typename allocator>
 void
-dettatch(
+detach(
   basic_category<charT,traits,allocator> const * const _leaf
 ){
 _leaf->notify_detach();
@@ -30,18 +30,18 @@ _leaf->notify_detach();
 
 /* attach
 */
-void
 template <typename charT, typename traits, typename allocator>
+void
 basic_category<charT,traits,allocator>::attach(
   basic_category<charT,traits,allocator> const & _root
 ){
-this.leaf.push_back(&_root);
+this->leafs.insert(&_root);
 }
 
 /*
 */
-void
 template <typename charT, typename traits, typename allocator>
+void
 basic_category<charT,traits,allocator>::detach(
 ){
 this->root->notify_detach(this);
@@ -49,8 +49,8 @@ this->root->notify_detach(this);
 
 /* notify_detach leaf from root
 */
-void
 template <typename charT, typename traits, typename allocator>
+void
 basic_category<charT,traits,allocator>::notify_detach(
 ){
 this->root = nullptr;
@@ -59,8 +59,8 @@ this->root = nullptr;
 /* notify_detach root from leaf
   This will assume the leaf is a unique element.
 */
-void
 template <typename charT, typename traits, typename allocator>
+void
 basic_category<charT,traits,allocator>::notify_detach(
   basic_category<charT,traits,allocator> const * const _leaf
 ){
@@ -74,8 +74,9 @@ template <typename charT, typename traits, typename allocator>
 basic_category<charT,traits,allocator>::basic_category(
   charT const * const _tag
 )
-  : basic_tag (_tag)
-  , root (nullptr) {
+  : basic_tag<charT,traits,allocator> (_tag)
+  , root (nullptr)
+  , leafs () {
 }
 
 /* ctor copy tag
@@ -85,8 +86,9 @@ template <typename charT, typename traits, typename allocator>
 basic_category<charT,traits,allocator>::basic_category(
   basic_tag<charT,traits,allocator> _tag
 )
-  : basic_tag (_tag)
-  , root (nullptr) {
+  : basic_tag<charT,traits,allocator> (_tag)
+  , root (nullptr)
+  , leafs () {
 }
 
 /* ctor create tag & link to root
@@ -97,8 +99,9 @@ basic_category<charT,traits,allocator>::basic_category(
   charT const * const _tag
 , basic_category<charT,traits,allocator> const & _cat
 )
-  : basic_tag (_tag)
-  , root (&_cat) {
+  : basic_tag<charT,traits,allocator> (_tag)
+  , root (&_cat)
+  , leafs () {
 _cat.attach(this);
 }
 
@@ -110,15 +113,17 @@ basic_category<charT,traits,allocator>::basic_category(
   basic_tag<charT,traits,allocator> _tag
 , basic_category<charT,traits,allocator> const & _cat
 )
-  : basic_tag (_tag)
-  , root (&_cat) {
+  : basic_tag<charT,traits,allocator> (_tag)
+  , root (&_cat)
+  , leafs () {
 _cat.attach(this);
 }
 
 template <typename charT, typename traits, typename allocator>
 basic_category<charT,traits,allocator>::~basic_category(
 ){
-std::for_each(std::begin(), std::end(), bits::detach);
+std::for_each
+  (std::begin(this->leafs), std::end(this->leafs), bits::detach);
 }
 
 } /* taxo */
