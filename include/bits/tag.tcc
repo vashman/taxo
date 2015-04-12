@@ -8,7 +8,7 @@
 #ifndef TAXO_TAG_TCC
 #define TAXO_TAG_TCC
 
-namepsace taxo {
+namespace taxo {
 /* ctor */
 template <typename charT, typename traits, typename allocator>
 basic_tag<charT,traits,allocator>::basic_tag(

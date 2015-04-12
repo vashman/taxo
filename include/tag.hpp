@@ -34,11 +34,13 @@ public:
   );
 
   /* assignment operator */
+  void
   operator=(
     std::basic_string<charT,traits,allocator> const &
   );
   
   /* assignment operator */
+  void
   operator=(
     charT const * const
   );
@@ -63,6 +65,8 @@ operator!=(
 , basic_tag<charT,traits,allocator> const &
 );
 
+typedef basic_tag<char> tag;
+typedef basic_tag<wchar_t> wtag;
 } /* taxo */
 #include "bits/tag.tcc"
 #endif
