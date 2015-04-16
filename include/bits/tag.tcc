@@ -11,10 +11,12 @@
 namespace taxo {
 /* ctor */
 template <typename charT, typename traits, typename allocator>
+template <typename Iter>
 basic_tag<charT,traits,allocator>::basic_tag(
-  std::basic_string<charT,traits,allocator> _str
+  Iter _begin
+, Iter _end
 )
-  : tag (_str) {
+  : tag (_begin, _end) {
 }
 
 /* ctor */
@@ -49,15 +51,6 @@ operator!=(
 , basic_tag<charT,traits,allocator> const & _other
 ){
 return (_tag.tag != _other.tag);
-}
-
-/* assignment operator */
-template <typename charT, typename traits, typename allocator>
-void
-basic_tag<charT,traits,allocator>::operator=(
-  std::basic_string<charT,traits,allocator> const & _str
-){
-this->tag = _str;
 }
 
 /* assignment operator */

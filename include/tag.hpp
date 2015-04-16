@@ -19,8 +19,10 @@ template <typename charT
 class basic_tag {
 public:
   /* ctor */
+  template <typename Iter>
   basic_tag(
-    std::basic_string<charT,traits,allocator>
+    Iter
+  , Iter
   );
   
   /* ctor */
@@ -31,12 +33,6 @@ public:
   /* dtor */
   virtual
   ~basic_tag(
-  );
-
-  /* assignment operator */
-  void
-  operator=(
-    std::basic_string<charT,traits,allocator> const &
   );
   
   /* assignment operator */
