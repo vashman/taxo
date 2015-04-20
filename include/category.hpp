@@ -8,33 +8,34 @@
 #ifndef TAXO_CATEGORY_HPP
 #define TAXO_CATEGORY_HPP
 
-#include <set>
 #include "tag.hpp"
 
 namespace taxo {
 /**/
 template <
   typename charT
-, typename traits = std::char_traits<charT>
-, typename allocator = std::allocator<charT>
+, typename traits
+    = std::char_traits<charT>
+, typename allocator
+    = std::allocator<charT>
 >
-class basic_category : public basic_tag<charT,traits,allocator> {
+class basic_category {
 public:
+  /* ctor */
+  basic_category() = default;
+
   /* ctor */
   basic_category(
     basic_tag<charT,traits,allocator>
-  , basic_category<charT,traits,allocator> const &
   );
-  
+ 
   /* ctor */
   basic_category(
-    charT const * const
-  , basic_category<charT,traits,allocator> const &
-  );
-  
-  /* ctor */
-  basic_category(
-    basic_tag<charT,traits,allocator> _tag
+    basic_category<
+      charT
+    , traits
+    , allocator
+    > const &
   );
   
   /* ctor */
@@ -42,49 +43,24 @@ public:
     charT const * const _tag
   );
   
-  virtual
   ~basic_category(
   );
 
 private:
-  /* notify_detach */
-  void
-  notify_detach(
-    basic_category<charT,traits,allocator> const * const _leaf
-  );
+  /*  */
+  basic_tag<
+    charT
+   , traits
+   , allocator
+   > * const tag;
 
-  /* notify_detach */
-  void
-  notify_detach(
-  );
-
-  /* attach */
-  void
-  attach(
-    basic_category<charT,traits,allocator> const & _root
-  );
-
-  /* detach */
-  void
-  detach(
-  );
-
-  basic_category<charT,traits,allocator> * const root;
-  
-  std::set<basic_category<charT,traits,allocator> const * const> leafs;
+  std::size_t * const count;
 };
 
 typedef basic_category<char> category;
-typedef basic_category<wchar_t> wcategory;
+typedef
+  basic_category<wchar_t> wcategory;
 
-namespace bits {
-/* detach function */
-template <typename charT, typename traits, typename allocator>
-void
-detach(
-  basic_category<charT,traits,allocator> const * const _leaf
-);
-
-} /* bits */ } /* taxo */
+} /* taxo */
 #include "bits/category.tcc"
 #endif

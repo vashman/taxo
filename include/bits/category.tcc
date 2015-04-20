@@ -16,114 +16,79 @@
 #include <algorithm>
 
 namespace taxo {
-namespace bits {
-/**/
-template <typename charT, typename traits, typename allocator>
-void
-detach(
-  basic_category<charT,traits,allocator> const * const _leaf
-){
-_leaf->notify_detach();
-}
-
-} /* bits */
-
-/* attach
-*/
-template <typename charT, typename traits, typename allocator>
-void
-basic_category<charT,traits,allocator>::attach(
-  basic_category<charT,traits,allocator> const & _root
-){
-this->leafs.insert(&_root);
-}
-
-/*
-*/
-template <typename charT, typename traits, typename allocator>
-void
-basic_category<charT,traits,allocator>::detach(
-){
-this->root->notify_detach(this);
-}
-
-/* notify_detach leaf from root
-*/
-template <typename charT, typename traits, typename allocator>
-void
-basic_category<charT,traits,allocator>::notify_detach(
-){
-this->root = nullptr;
-}
-
-/* notify_detach root from leaf
-  This will assume the leaf is a unique element.
-*/
-template <typename charT, typename traits, typename allocator>
-void
-basic_category<charT,traits,allocator>::notify_detach(
-  basic_category<charT,traits,allocator> const * const _leaf
-){
-this->leaf.erase(_leaf);
-}
 
 /* ctor create tag
-  Create a category with no root and new tag.
+  Create a category with no root and
+new tag.
 */
-template <typename charT, typename traits, typename allocator>
-basic_category<charT,traits,allocator>::basic_category(
+template <
+  typename charT
+, typename traits
+, typename allocator
+>
+basic_category<charT,traits,allocator>
+  ::basic_category(
   charT const * const _tag
 )
-  : basic_tag<charT,traits,allocator> (_tag)
-  , root (nullptr)
-  , leafs () {
+  : tag (nullptr)
+  , count (
+      new std::size_t (
+        std::limits<std::size_t>::min()
+      )
+  ) {
 }
 
 /* ctor copy tag
   Create a category with no root.
 */
-template <typename charT, typename traits, typename allocator>
-basic_category<charT,traits,allocator>::basic_category(
+template <
+  typename charT
+, typename traits
+, typename allocator
+>
+basic_category<charT,traits,allocator>
+::basic_category(
   basic_tag<charT,traits,allocator> _tag
 )
-  : basic_tag<charT,traits,allocator> (_tag)
-  , root (nullptr)
-  , leafs () {
-}
-
-/* ctor create tag & link to root
-  Create a category.
-*/
-template <typename charT, typename traits, typename allocator>
-basic_category<charT,traits,allocator>::basic_category(
-  charT const * const _tag
-, basic_category<charT,traits,allocator> const & _cat
-)
-  : basic_tag<charT,traits,allocator> (_tag)
-  , root (&_cat)
-  , leafs () {
-_cat.attach(this);
+  : tag (_tag)
+  , count ( new std::size_t (
+      std::limits<std::size_t>::mind())
+  ) {
 }
 
 /* ctor copy tag & link to root
   Create a category.
 */
-template <typename charT, typename traits, typename allocator>
-basic_category<charT,traits,allocator>::basic_category(
-  basic_tag<charT,traits,allocator> _tag
-, basic_category<charT,traits,allocator> const & _cat
+template <
+  typename charT
+, typename traits
+, typename allocator
+>
+basic_category<charT,traits,allocator>
+::basic_category(
+  basic_category<charT,traits,allocator>
+    const & _cat
 )
-  : basic_tag<charT,traits,allocator> (_tag)
-  , root (&_cat)
-  , leafs () {
-_cat.attach(this);
+  : tag (_cat.tag)
+  , count (_cat.count) {
+++this->count;
 }
 
-template <typename charT, typename traits, typename allocator>
-basic_category<charT,traits,allocator>::~basic_category(
+template <
+  typename charT
+, typename traits
+, typename allocator
+>
+basic_category<charT,traits,allocator>
+::~basic_category(
 ){
-std::for_each
-  (std::begin(this->leafs), std::end(this->leafs), bits::detach);
+  if (
+     std::limits<std::size_t>::min()
+     == (--this->count)
+  ){
+  delete count;
+  delete tag;
+  }
 }
 
 } /* taxo */
