@@ -10,10 +10,18 @@ namespace taxo {
 template <
   typename T
 , typename charT
-, typename traits = std::char_traits<charT>
-, typename allocator = std::allocator<charT>
+, typename traits
+    = std::char_traits<charT>
+, typename allocator
+    = std::allocator<charT>
 >
-class basic_relation : public basic_tag<charT,traits,allocator> {
+class basic_relation
+  : public basic_tag<
+      charT
+    , traits
+    , allocator
+    >
+{
 public:
   T degree;
 };
