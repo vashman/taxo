@@ -6,7 +6,7 @@
 #include "tag.hpp"
 
 namespace taxo {
-/**/
+/* basic_relation */
 template <
   typename T
 , typename charT
@@ -23,6 +23,24 @@ class basic_relation
     >
 {
 public:
+  /* ctor */
+  template <typename... Ts>
+  basic_relation(
+    Ts...
+  );
+
+  /* ctor copy */
+  basic_relation(
+    basic_relation<
+      charT
+    , traits
+    , allocator
+    > const &
+  );
+
+  ~basic_relation(
+  ) = default;
+
   T degree;
 };
 
