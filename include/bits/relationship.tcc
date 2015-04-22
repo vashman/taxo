@@ -1,15 +1,26 @@
 //
 
-#ifndef TAXO_REALTIONSHIP_TCC
-#define TAXO_REALTIONSHIP_TCC
+#ifndef TAXO_REALTION_TCC
+#define TAXO_REALTION_TCC
 
 namespace taxo {
 /* ctor
 */
-template <typename charT, typename traits, typename allocator>
-basic_relationship<charT,traits,allocator>::basic_relationship(
+template <
+  typename charT
+, typename traits
+, typename allocator
+>
+template <typename... Ts>
+basic_relation<charT,traits,allocator>
+::basic_relationship(
 )
-  : basic_catagory () {
+  : basic_tag<
+      charT
+    , traits
+    , allocator
+    > ()
+  , degree (Ts...) {
 }
 
 } /* taxo */
