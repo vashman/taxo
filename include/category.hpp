@@ -22,7 +22,8 @@ template <
 class basic_category {
 public:
   /* ctor */
-  basic_category() = default;
+  basic_category(
+  ) = default;
 
   /* ctor */
   basic_category(
@@ -46,8 +47,29 @@ public:
   ~basic_category(
   );
 
+  /* merge */
+  bool
+  merge(
+    basic_category<
+      charT
+    , traits
+    , allocator> &
+  );
+
+  /* split */
+  basic_category
+  split(
+  ) const ;
+
+  /* compare tag */
+  bool
+  operator=(
+    basic_tag<charT,traits,allocator>
+      const &
+  ) const;
+
 private:
-  /*  */
+  /* tag */
   basic_tag<
     charT
    , traits
@@ -56,6 +78,30 @@ private:
 
   std::size_t * const count;
 };
+
+/* create_category
+Create a category, copying if it is
+all ready in a range.
+*/
+template <typename Iter>
+basic_category<>
+create_category(
+  Iter _first
+, Iter _last
+, basic_category<>
+){
+  if (
+     std::find(
+       _first
+     , _last
+     , (_tag)
+   !=
+     _last
+  ){
+  return basic_category<>(_tag);
+  }
+return basic_catagory(_tag);
+}
 
 typedef basic_category<char> category;
 typedef
