@@ -13,47 +13,42 @@
 namespace taxo {
 /**/
 template <
-  typename charT
-, typename traits
-    = std::char_traits<charT>
-, typename allocator
-    = std::allocator<charT>
+  typename allocator
+    = std::allocator<char>
 >
-class basic_category {
+class category {
 public:
+  typedef tag<allocator>::value_type
+    value_type;
+
   /* ctor */
-  basic_category(
+  category(
   ) = default;
 
   /* ctor */
-  basic_category(
-    basic_tag<charT,traits,allocator>
+  category(
+    tag<allocator>
   );
  
-  /* ctor */
-  basic_category(
-    basic_category<
-      charT
-    , traits
-    , allocator
-    > const &
+  /* ctor copy */
+  category(
+    category<allocator> const &
   );
   
   /* ctor */
-  basic_category(
+  template <typename charT>
+  category(
     charT const * const _tag
   );
   
+  /* dtor */
   ~basic_category(
   );
 
   /* merge */
   bool
   merge(
-    basic_category<
-      charT
-    , traits
-    , allocator> &
+    basic_category<allocator> &
   );
 
   /* split */
@@ -61,21 +56,17 @@ public:
   split(
   ) const ;
 
-  /* compare tag */
+  /* assignment tag */
   bool
   operator=(
-    basic_tag<charT,traits,allocator>
-      const &
+    basic_tag<allocator> const &
   ) const;
 
 private:
   /* tag */
-  basic_tag<
-    charT
-   , traits
-   , allocator
-   > * const tag;
+  tag<allocator> * const tag;
 
+  /* instance counter */
   std::size_t * const count;
 };
 
@@ -102,10 +93,6 @@ create_category(
   }
 return basic_catagory(_tag);
 }
-
-typedef basic_category<char> category;
-typedef
-  basic_category<wchar_t> wcategory;
 
 } /* taxo */
 #include "bits/category.tcc"

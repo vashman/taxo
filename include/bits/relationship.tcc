@@ -1,25 +1,22 @@
 //
 
+//          Copyright Sundeep S. Sangha 2015.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)
+
 #ifndef TAXO_REALTION_TCC
 #define TAXO_REALTION_TCC
 
 namespace taxo {
 /* ctor
 */
-template <
-  typename charT
-, typename traits
-, typename allocator
->
+template <typename allocator>
 template <typename... Ts>
-basic_relation<charT,traits,allocator>
-::basic_relationship(
+relation<allocator>
+::relationship(
 )
-  : basic_tag<
-      charT
-    , traits
-    , allocator
-    > ()
+  : tag<allocator> ()
   , degree (Ts...) {
 }
 

@@ -16,18 +16,14 @@
 #include <algorithm>
 
 namespace taxo {
-
 /* ctor create tag
   Create a category with no root and
 new tag.
 */
-template <
-  typename charT
-, typename traits
-, typename allocator
->
-basic_category<charT,traits,allocator>
-  ::basic_category(
+template <typename allocator>
+template <typename charT>
+basic_category<allocator>
+::basic_category(
   charT const * const _tag
 )
   : tag (nullptr)
@@ -35,20 +31,16 @@ basic_category<charT,traits,allocator>
       new std::size_t (
         std::limits<std::size_t>::min()
       )
-  ) {
+  ){
 }
 
 /* ctor copy tag
   Create a category with no root.
 */
-template <
-  typename charT
-, typename traits
-, typename allocator
->
-basic_category<charT,traits,allocator>
+template <typename allocator>
+basic_category<allocator>
 ::basic_category(
-  basic_tag<charT,traits,allocator> _tag
+  basic_tag<allocator> _tag
 )
   : tag (_tag)
   , count ( new std::size_t (
@@ -59,27 +51,18 @@ basic_category<charT,traits,allocator>
 /* ctor copy tag & link to root
   Create a category.
 */
-template <
-  typename charT
-, typename traits
-, typename allocator
->
-basic_category<charT,traits,allocator>
+template <typename allocator>
+basic_category<allocator>
 ::basic_category(
-  basic_category<charT,traits,allocator>
-    const & _cat
+  basic_category<allocator> const & _cat
 )
   : tag (_cat.tag)
   , count (_cat.count) {
 ++this->count;
 }
 
-template <
-  typename charT
-, typename traits
-, typename allocator
->
-basic_category<charT,traits,allocator>
+template <typename allocator>
+basic_category<allocator>
 ::~basic_category(
 ){
   if (

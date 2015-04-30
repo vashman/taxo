@@ -1,5 +1,10 @@
 //
 
+//          Copyright Sundeep S. Sangha 2015.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)
+
 #ifndef TAXO_RELATION_HPP
 #define TAXO_RELATION_HPP
 
@@ -9,36 +14,25 @@ namespace taxo {
 /* basic_relation */
 template <
   typename T
-, typename charT
-, typename traits
-    = std::char_traits<charT>
 , typename allocator
-    = std::allocator<charT>
+    = std::allocator<char>
 >
-class basic_relation
-  : public basic_tag<
-      charT
-    , traits
-    , allocator
-    >
+class relation
+  : public tag<allocator>
 {
 public:
   /* ctor */
   template <typename... Ts>
-  basic_relation(
+  relation(
     Ts...
   );
 
   /* ctor copy */
-  basic_relation(
-    basic_relation<
-      charT
-    , traits
-    , allocator
-    > const &
-  );
+  relation(
+    relation<allocator> const &
+  ) = default;
 
-  ~basic_relation(
+  ~relation(
   ) = default;
 
   T degree;
