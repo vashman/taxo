@@ -12,57 +12,64 @@
 
 namespace taxo {
 /* basic_tag */
-template <typename charT
-, typename traits = std::char_traits<charT>
-, typename allocator = std::allocator<charT>
+template <
+, typename allocator
+  = std::allocator<char>
 >
-class basic_tag {
+class tag {
 public:
+  typedef char value_type;
+
   /* ctor */
   template <typename Iter>
-  basic_tag(
+  tag(
     Iter
   , Iter
   );
   
   /* ctor */
-  basic_tag(
+  template <typename charT>
+  tag(
     charT const * const  
   );
 
   /* dtor */
   virtual
-  ~basic_tag(
+  ~tag(
   );
   
   /* assignment operator */
+  template <typename charT>
   void
   operator=(
     charT const * const
   );
 
 private:
-  std::basic_string<charT,traits,allocator> tag;
+  /**/
+  std::basic_string<
+    char
+  , std::char_traits<value_type>
+  , allocator
+  > tag;
 };
 
 /**/
-template <typename charT, typename traits, typename allocator>
+template <typename allocator>
 bool
 operator==(
-  basic_tag<charT,traits,allocator> const &
-, basic_tag<charT,traits,allocator> const &
+  tag<allocator> const &
+, tag<allocator> const &
 );
 
 /**/
-template <typename charT, typename traits, typename allocator>
+template <typename allocator>
 bool
 operator!=(
-  basic_tag<charT,traits,allocator> const &
-, basic_tag<charT,traits,allocator> const &
+  tag<allocator> const &
+, tag<allocator> const &
 );
 
-typedef basic_tag<char> tag;
-typedef basic_tag<wchar_t> wtag;
 } /* taxo */
 #include "bits/tag.tcc"
 #endif

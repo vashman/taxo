@@ -10,9 +10,9 @@
 
 namespace taxo {
 /* ctor */
-template <typename charT, typename traits, typename allocator>
+template <typename allocator>
 template <typename Iter>
-basic_tag<charT,traits,allocator>::basic_tag(
+tag<allocator>::tag(
   Iter _begin
 , Iter _end
 )
@@ -20,43 +20,45 @@ basic_tag<charT,traits,allocator>::basic_tag(
 }
 
 /* ctor */
-template <typename charT, typename traits, typename allocator>
-basic_tag<charT,traits,allocator>::basic_tag(
+template <typename allocator>
+template <typename charT>
+tag<allocator>::tag(
   charT const * const _str
 )
   : tag (_str) {
 }
 
 /* dtor */
-template <typename charT, typename traits, typename allocator>
-basic_tag<charT,traits,allocator>::~basic_tag(
+template <typename allocator>
+tag<allocator>::~tag(
 ){
 }
 
 /* operator compare equal */
-template <typename charT, typename traits, typename allocator>
+template <typename allocator>
 bool
 operator==(
-  basic_tag<charT,traits,allocator> const & _tag
-, basic_tag<charT,traits,allocator> const & _other
+  tag<allocator> const & _rhs
+, tag<allocator> const & _lhs
 ){
-return (_tag.tag == _other.tag);
+return (_rhs.tag == _lhs.tag);
 }
 
 /* operator compare not equal */
-template <typename charT, typename traits, typename allocator>
+template <typename allocator>
 bool
 operator!=(
-  basic_tag<charT,traits,allocator> const & _tag
-, basic_tag<charT,traits,allocator> const & _other
+  tag<allocator> const & _rhs
+, tag<allocator> const & _lhs
 ){
-return (_tag.tag != _other.tag);
+return !(_rhs == _lhs);
 }
 
 /* assignment operator */
-template <typename charT, typename traits, typename allocator>
+template <typename allocator>
+template <typename charT>
 void
-basic_tag<charT,traits,allocator>::operator=(
+tag<allocator>::operator=(
   charT const * const _str
 ){
 this->tag = _str;
