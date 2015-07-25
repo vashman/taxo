@@ -11,88 +11,93 @@
 #include "tag.hpp"
 
 namespace taxo {
-/**/
-template <
-  typename allocator
-    = std::allocator<char>
->
+/* category */
 class category {
 public:
-  typedef tag<allocator>::value_type
-    value_type;
+  /* ctor */
+  category();
 
   /* ctor */
-  category(
-  ) = default;
+  category(char const * const);
 
   /* ctor */
+  explicit
   category(
-    tag<allocator>
+    tag const &
   );
  
   /* ctor copy */
   category(
-    category<allocator> const &
+    category const &
   );
-  
-  /* ctor */
-  template <typename charT>
+
+  /* assignment operator copy */
+  category &
+  operator=(
+    category const &
+  );
+
+  /* ctor move */
   category(
-    charT const * const _tag
+    category &&
+  );
+
+  /* assignment operator move */
+  category &
+  operator=(
+    category &&
   );
   
   /* dtor */
-  ~basic_category(
-  );
+  ~category();
 
   /* merge */
   bool
   merge(
-    basic_category<allocator> &
+    category &
   );
 
   /* split */
-  basic_category
-  split(
-  ) const ;
+  category
+  split() const ;
 
   /* assignment tag */
   bool
   operator=(
-    basic_tag<allocator> const &
+    tag const &
   ) const;
+
+  /* operator == */
+  bool
+  operator==(
+    category const & _rhs
+  );
+
+  /* operator != */
+  bool
+  operator!=(
+    category const & _rhs
+  );
 
 private:
   /* tag */
-  tag<allocator> * const tag;
+  tag * value;
 
   /* instance counter */
-  std::size_t * const count;
+  std::size_t * count;
 };
 
 /* create_category
-Create a category, copying if it is
-all ready in a range.
+  Create a category, copying if it is
+  all ready in a range.
 */
 template <typename Iter>
-basic_category<>
+category
 create_category(
   Iter _first
 , Iter _last
-, basic_category<>
-){
-  if (
-     std::find(
-       _first
-     , _last
-     , (_tag)
-   !=
-     _last
-  ){
-  return basic_category<>(_tag);
-  }
-return basic_catagory(_tag);
-}
+, tag & _tag
+);
 
 } /* taxo */
 #include "bits/category.tcc"

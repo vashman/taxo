@@ -9,15 +9,25 @@
 #define TAXO_REALTION_TCC
 
 namespace taxo {
-/* ctor
-*/
-template <typename allocator>
+/* ctor */
+template <typename T>
 template <typename... Ts>
-relation<allocator>
-::relationship(
+relation<T>::relation(
+  Ts... _vs
 )
-  : tag<allocator> ()
-  , degree (Ts...) {
+: value ()
+, degree (_vs...) {
+}
+
+/* ctor */
+template <typename T>
+template <typename... Ts>
+relation<T>::relation(
+  tag const & _tag
+, Ts... _vs
+)
+: value (_tag)
+, degree (_vs...) {
 }
 
 } /* taxo */

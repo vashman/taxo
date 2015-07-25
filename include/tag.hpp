@@ -11,63 +11,64 @@
 #include <string>
 
 namespace taxo {
-/* basic_tag */
-template <
-, typename allocator
-  = std::allocator<char>
->
+/* tag */
 class tag {
 public:
-  typedef char value_type;
-
   /* ctor */
   template <typename Iter>
   tag(
     Iter
   , Iter
   );
-  
+
   /* ctor */
-  template <typename charT>
-  tag(
-    charT const * const  
-  );
+  explicit
+  tag(char const * const);
+
+  /* ctor */
+  explicit
+  tag() = default;
+  
+  /* ctor copy */
+  tag(tag const &) = default;
+
+  /* assignment operator copy */
+  tag &
+  operator=(tag const &) = default;
+
+  /* ctor move */
+  tag(tag &&) = default;
+
+  /* assignment operator move */
+  tag &
+  operator=(tag &&) = default;
 
   /* dtor */
-  virtual
-  ~tag(
-  );
+  ~tag();
   
-  /* assignment operator */
-  template <typename charT>
-  void
-  operator=(
-    charT const * const
-  );
-
 private:
-  /**/
-  std::basic_string<
-    char
-  , std::char_traits<value_type>
-  , allocator
-  > tag;
+  /* internal tag storage */
+  std::string value;
+
+  friend bool
+  operator==(tag const &, tag const &);
+
+  friend bool
+  operator!=(tag const &, tag const &);
 };
 
 /**/
-template <typename allocator>
 bool
 operator==(
-  tag<allocator> const &
-, tag<allocator> const &
+  tag const &
+, tag const &
 );
 
 /**/
-template <typename allocator>
 bool
 operator!=(
-  tag<allocator> const &
-, tag<allocator> const &
+  tag const &
+, tag const &
 );
 
 } /* taxo */

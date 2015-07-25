@@ -16,62 +16,23 @@
 #include <algorithm>
 
 namespace taxo {
-/* ctor create tag
-  Create a category with no root and
-new tag.
+/* create_category
+  Create a category, copying if it is
+  all ready in a range.
 */
-template <typename allocator>
-template <typename charT>
-basic_category<allocator>
-::basic_category(
-  charT const * const _tag
-)
-  : tag (nullptr)
-  , count (
-      new std::size_t (
-        std::limits<std::size_t>::min()
-      )
-  ){
-}
-
-/* ctor copy tag
-  Create a category with no root.
-*/
-template <typename allocator>
-basic_category<allocator>
-::basic_category(
-  basic_tag<allocator> _tag
-)
-  : tag (_tag)
-  , count ( new std::size_t (
-      std::limits<std::size_t>::mind())
-  ) {
-}
-
-/* ctor copy tag & link to root
-  Create a category.
-*/
-template <typename allocator>
-basic_category<allocator>
-::basic_category(
-  basic_category<allocator> const & _cat
-)
-  : tag (_cat.tag)
-  , count (_cat.count) {
-++this->count;
-}
-
-template <typename allocator>
-basic_category<allocator>
-::~basic_category(
+template <typename Iter>
+category
+create_category(
+  Iter _first
+, Iter _last
+, tag & _tag
 ){
-  if (
-     std::limits<std::size_t>::min()
-     == (--this->count)
-  ){
-  delete count;
-  delete tag;
+Iter
+iter = std::find(_first, _last, _tag);
+  if ( iter != _last){
+  return *iter;
   }
+return category(_tag);
 }
 
 } /* taxo */

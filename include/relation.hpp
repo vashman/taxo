@@ -12,14 +12,8 @@
 
 namespace taxo {
 /* basic_relation */
-template <
-  typename T
-, typename allocator
-    = std::allocator<char>
->
-class relation
-  : public tag<allocator>
-{
+template <typename T>
+class relation {
 public:
   /* ctor */
   template <typename... Ts>
@@ -27,17 +21,45 @@ public:
     Ts...
   );
 
+  /* ctor overload
+    Overload is selected over template
+    mapping when the first argument is
+    a tag.
+  */
+  template <typename... Ts>
+  relation(
+    tag const &
+  , Ts...
+  );
+
   /* ctor copy */
   relation(
-    relation<allocator> const &
+    relation<T> const &
   ) = default;
 
-  ~relation(
+  /* assignment operator */
+  relation<T> &
+  operator=(
+    relation<T> const &
   ) = default;
 
+  /* ctor move */
+  relation(
+    relation<T> &&
+  ) = default;
+
+  /* assignment operator move */
+  relation<T> &
+  operator=(
+    relation<T> &&
+  ) = default;
+
+  ~relation() = default;
+
+  tag value;
   T degree;
 };
 
 } /* taxo */
-#include "bits/realtion.tcc"
+#include "bits/relation.tcc"
 #endif
